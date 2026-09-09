@@ -102,6 +102,10 @@ python -m unittest discover -s tests -v
 
 Tests cover read-only inventory behavior, path and output guards, malformed metadata, duplicate and usage handling, example-link filtering, HTML escaping, missing metrics, invalid/contaminated runs, and matched comparisons. They do not establish that any particular skill improves task performance.
 
+The CLI workflow test also runs from an unrelated working directory with hostile fixture text, an executable helper, malformed YAML, and incomplete usage evidence. It checks the resulting inventory and verifies that the inputs remain unchanged.
+
+See the [validation record](docs/validation.md) for the scope and limits of the live agent trials.
+
 ## License and attribution
 
 Apache License 2.0; see [LICENSE.txt](LICENSE.txt). Evaluation role instructions are adapted from Anthropic’s skill-creator. [ATTRIBUTION.md](ATTRIBUTION.md) records the upstream revision and changes. The inventory and reporting implementation is newly written; it does not depend on the Claude CLI.
