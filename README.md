@@ -33,28 +33,63 @@ python -m pip install -r "$env:USERPROFILE/.codex/skills/skill-audit/requirement
 
 If you use a custom `CODEX_HOME`, install under its `skills` directory. If the destination already exists, preserve it and update deliberately rather than cloning over it. Python 3.10+ is required; the inventory needs PyYAML, while report generation uses only the standard library. A private repository requires GitHub access to clone.
 
-## Use with an agent
+## First time? Start here
+
+After installing the skill, paste this into your agent:
 
 ```text
-Use $skill-audit to review my installed skills. Prioritize broken references,
-conflicting instructions, and overlapping triggers. Give me the top three
-candidates with evidence. Do not change anything yet.
+Use $skill-audit for a first-pass audit of my installed skill library.
+Scan the available library and inspect the flagged issues in context.
+Generate an HTML report that separates verified fixes, retirement decisions
+for me to review, skills worth testing next, and lower-priority tests for later.
+For each proposed test, explain the question it would answer and suggest a
+representative task. Include strengths worth keeping and disclose scan gaps.
+Do not change skills, inspect conversation history, or run benchmarks yet.
 ```
+
+This basic run produces an inventory and an evidence-backed HTML report. It scans the discovered library and reviews relevant flags; it does not execute every skill or prove that every unflagged skill is healthy. Tell the agent if you also want a Claude Code installation or another skill directory included. The report should state what it could and could not inspect.
+
+| Report group | What belongs here | Your next decision |
+| --- | --- | --- |
+| Fix now | Verified defects such as a missing required helper or malformed metadata | Select the repairs you want applied |
+| Review for retirement | Skills with a concrete relevance or duplication concern | Confirm whether you still need the workflow |
+| Test next | A consequential uncertainty that representative tasks can resolve | Choose a small batch, normally at most three skills |
+| Test later | Lower-priority questions, or tests awaiting a fixture or repaired dependency | Revisit when the stated condition changes |
+| Keep / preserve | Useful knowledge, scripts, examples, and constraints found during review | Retain them when simplifying or consolidating |
+
+Empty groups are fine. “Test next” means testing would inform a decision, not that the skill is proven defective. Missing usage evidence, skill age, and file size alone do not establish that a skill should be retired.
+
+Start with the report, then test selectively. Testing 100 skills on two tasks in three conditions requires 600 runs before repeats; a basic audit should not silently launch that work. A skill for an abandoned project may need only your relevance decision, while a frequently used skill with uncertain value may deserve a comparison.
+
+See [examples/audit.json](examples/audit.json) for the synthetic report structure. The Python scripts generate the inventory and HTML; the agent performs the contextual review and chooses recommendations.
+
+## Follow up on the report
+
+Choose names from your report and replace the brackets below. These are separate next steps, not a sequence that must all run.
+
+```text
+Use $skill-audit to test only [skill names] from the Test next group.
+Use two representative tasks per skill and compare the current procedure,
+a simpler version, and a baseline. Start with a small isolated pilot.
+Report outcomes and limitations; do not change the installed skills yet.
+```
+
+```text
+Apply only the verified repairs for [skill names] from the report.
+Back up originals, preserve the listed constraints, and verify the changes.
+```
+
+```text
+Retire only [skill names] from the report; I no longer need those workflows.
+Back up the installed copies, update affected callers, and verify the result.
+```
+
+For an optional usage review:
 
 ```text
 Review skill usage over the last 60 days using the local logs I authorize you
 to inspect. Separate actual launches from file reads and ordinary mentions.
 Explain any retention gaps before recommending retirement.
-```
-
-```text
-Fix the verified issues in these named skills. Back up originals, update their
-callers, and verify the resulting files. Preserve my existing workflows.
-```
-
-```text
-Evaluate this skill against a simplified version and a no-skill baseline on
-two supplied tasks. Use isolated runs and report inconclusive comparisons honestly.
 ```
 
 Usage-log collection is agent-assisted work, **not a bundled Codex/Claude transcript parser**. The included importer accepts verified invocation events in the [documented format](references/data-contracts.md). File reads may be maintenance; catalog mentions are not use; missing logs do not establish that a skill was never used.

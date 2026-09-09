@@ -146,15 +146,44 @@ def shell(title, body):
 </style></head><body><div class="eyebrow">Skill Audit · local review</div><h1>""" + esc(title) + "</h1>" + body + "<p class='muted'>Generated locally. Embedded text is escaped; no scripts, remote assets, or tracking.</p></body></html>"
 
 
+def action_plan_html(plan):
+    groups = (("fix_now", "Fix now"), ("review_retirement", "Review for retirement"),
+              ("test_next", "Test next"), ("test_later", "Test later"), ("keep", "Keep / preserve"))
+    if not isinstance(plan, dict) or set(plan) - {key for key, _ in groups}:
+        raise ValueError("action_plan must be an object with recognized group keys")
+    body = "<h2>What to do next</h2><p class='muted'>Recommendations for your next decision. See the findings for evidence and coverage limits.</p>"
+    for key, label in groups:
+        entries = plan.get(key, [])
+        if not isinstance(entries, list):
+            raise ValueError(f"action_plan.{key} must be an array")
+        body += "<section><h3>" + label + "</h3>"
+        if not entries:
+            body += "<p class='muted'>No recommendations in this group.</p>"
+        for entry in entries:
+            if not isinstance(entry, dict) or any(not isinstance(entry.get(field), str) or not entry[field].strip() for field in ("skill", "reason")):
+                raise ValueError("action_plan entries need nonempty skill and reason strings")
+            body += "<p><strong>" + esc(entry["skill"]) + "</strong> — " + esc(entry["reason"]) + "</p>"
+            for field, title in (("task", "Representative task"), ("success_criteria", "Success criteria"), ("prerequisite", "Revisit when")):
+                if field in entry:
+                    if not isinstance(entry[field], str):
+                        raise ValueError(f"action_plan entry {field} must be a string")
+                    body += "<p><strong>" + title + ":</strong> " + esc(entry[field]) + "</p>"
+        body += "</section>"
+    return body
+
+
 def audit_html(data):
     body = "<p>" + esc(data.get("summary", "")) + "</p><p class='muted'>Coverage: " + esc(data.get("coverage", "Not specified")) + "</p>"
+    if "action_plan" in data:
+        body += action_plan_html(data["action_plan"])
     body += "<h2>Findings</h2>"
     for finding in data.get("findings", []):
         body += "<section><h3>" + esc(finding.get("skill", "Unnamed skill")) + "</h3><p><strong>" + esc(finding.get("recommendation", "insufficient evidence")) + "</strong> · " + esc(finding.get("strength", "not specified")) + "</p><p>" + esc(finding.get("finding", "")) + "</p>"
         for evidence in finding.get("evidence", []):
             body += "<p><code>" + esc(evidence.get("path", "")) + ":" + esc(evidence.get("line", "?")) + "</code></p><pre>" + esc(evidence.get("excerpt", "")) + "</pre>"
         body += "<p><strong>Preserve:</strong> " + esc(finding.get("preserve", "Not specified")) + "</p></section>"
-    body += "<h2>Evaluation candidates</h2>" + listing(str(c.get("skill", "")) + ": " + str(c.get("reason", "")) for c in data.get("candidates", []))
+    if "action_plan" not in data:
+        body += "<h2>Evaluation candidates</h2>" + listing(str(c.get("skill", "")) + ": " + str(c.get("reason", "")) for c in data.get("candidates", []))
     body += "<h2>Limitations</h2>" + listing(data.get("limitations", []))
     return shell(data.get("title", "Skill audit"), body)
 

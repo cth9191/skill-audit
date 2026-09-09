@@ -10,8 +10,22 @@
       "finding": "The named helper is absent in this fictional package. Locate the intended dependency before changing the workflow.",
       "evidence": [{"path": "/example/skills/weekly-report/SKILL.md", "line": 12, "excerpt": "Run scripts/build_report.py."}],
       "preserve": "Required totals and reporting format"
+    },
+    {
+      "skill": "plan-review",
+      "recommendation": "evaluate",
+      "strength": "illustrative example",
+      "finding": "A mandatory second review could catch omissions or repeat the first review. Task outcomes are needed to decide whether to retain the extra pass.",
+      "evidence": [{"path": "/example/skills/plan-review/SKILL.md", "line": 8, "excerpt": "Always perform a second review of the plan."}],
+      "preserve": "Checks for missing dependencies and verification steps"
     }
   ],
-  "candidates": [{"skill": "plan-review", "reason": "Test whether the review identifies material issues on supplied plans"}],
+  "action_plan": {
+    "fix_now": [{"skill": "weekly-report", "reason": "Locate or restore the missing required helper before relying on this workflow"}],
+    "review_retirement": [],
+    "test_next": [{"skill": "plan-review", "reason": "Determine whether the second review catches additional material omissions", "task": "Review a supplied plan with known missing dependencies and verification steps", "success_criteria": "Identify the real omissions without inventing issues; compare current, simpler and baseline procedures"}],
+    "test_later": [{"skill": "weekly-report", "reason": "Evaluate reporting behavior after its dependency is repaired", "task": "Produce a weekly report from a small ledger with known totals", "success_criteria": "Preserve every required total and the reporting format", "prerequisite": "The required helper has been restored and passes its own checks"}],
+    "keep": [{"skill": "weekly-report", "reason": "Preserve its required totals and reporting format through any repair or simplification"}]
+  },
   "limitations": ["Synthetic data; no performance claim or retirement recommendation"]
 }

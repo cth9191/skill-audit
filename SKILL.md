@@ -13,6 +13,8 @@ Help the user decide which skills to keep, revise, consolidate, or evaluate. Ins
 - **Evaluate**: test named or shortlisted skills with the protocol in [evaluation.md](references/evaluation.md). If the user already requested an audit plus testing, proceed with a small, relevant evaluation within that scope.
 - **Apply**: change installed skills only when the user requests changes. Preserve originals and apply only the authorized changes. An audit or evaluation request alone is not permission to delete or rewrite skills.
 
+For a first-time or basic run, audit the discovered library and inspect relevant flags; do not launch a library-wide benchmark. Explain that discovery coverage is not the same as a detailed review or successful execution of every skill. Honor an explicit broader testing request, but size the work before running it.
+
 Use the current model unless the user chooses another. Record its exact identifier and effort when available. Do not claim model-specific superiority from reading a skill.
 
 ## Inventory the library
@@ -53,7 +55,9 @@ Write `audit.json` using [data-contracts.md](references/data-contracts.md), and 
 python <skill-dir>/scripts/report.py audit <audit-dir>/audit.json --out <audit-dir>/audit.html
 ```
 
-Report discovery/usage coverage, strengths worth preserving, evidence-backed findings, and a short ranked list of evaluation candidates. Default to at most three candidates; rank by likely user value and test feasibility, not file size alone. Use recommendations **keep**, **revise**, **investigate overlap**, **evaluate**, or **insufficient evidence**. Do not label every scanned item defective or unused. Link to the report and summarize the few decisions that matter.
+Report discovery/usage coverage, strengths worth preserving, and evidence-backed findings. Add the data contract's `action_plan`: **Fix now** for verified defects, **Review for retirement** for relevance decisions, **Test next** for consequential uncertainties, **Test later** for lower-priority or blocked comparisons, and **Keep / preserve** for useful capabilities. Empty groups are valid; unreviewed skills remain unknown. Recommendations do not authorize changes.
+
+Default to at most three Test next candidates. For each proposed test, state the decision it informs, a representative task and success criteria; for Test later also state what would make it worth revisiting. Rank by likely user value and feasibility, not age or file size. Do not benchmark an obvious repair or user-confirmed abandoned workflow merely to complete the report. Use finding recommendations **keep**, **revise**, **investigate overlap**, **evaluate**, or **insufficient evidence**; retirement candidates are user review decisions, not proof of obsolescence. Link to the report and suggest the smallest useful follow-up. Proceed with testing when already requested; otherwise the audit ends with these recommendations.
 
 For an evaluation, load only [evaluation.md](references/evaluation.md) and the evaluator role needed at each step. A static audit is complete without running a benchmark unless testing was requested. Never describe inspection alone as proof of a performance improvement.
 

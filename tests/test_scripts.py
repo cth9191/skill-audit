@@ -161,6 +161,30 @@ class ReportTests(unittest.TestCase):
         rendered = report.benchmark_html(data, report.summarize(data))
         self.assertNotIn('<script>', rendered)
 
+    def test_action_plan_preserves_decisions_and_escapes_every_field(self):
+        payload = '<img src=x onerror=alert(1)>'
+        entry = dict(skill=payload, reason='Resolve overlap '+payload,
+                     task='Review fixture '+payload, success_criteria='Preserve totals '+payload,
+                     prerequisite='Helper restored '+payload)
+        data = dict(action_plan={key: [entry] for key in
+                    ('fix_now', 'review_retirement', 'test_next', 'test_later', 'keep')},
+                    candidates=[dict(skill='legacy-duplicate', reason='Do not duplicate an action plan')])
+        rendered = report.audit_html(data)
+        self.assertNotIn('<img', rendered)
+        self.assertEqual(rendered.count('&lt;img src=x onerror=alert(1)&gt;'), 25)
+        self.assertNotIn('legacy-duplicate', rendered)
+        for value in ('Resolve overlap', 'Review fixture', 'Preserve totals', 'Helper restored'):
+            self.assertEqual(rendered.count(value), 5)
+        legacy = report.audit_html(dict(candidates=[dict(skill='old-format', reason='Still readable')]))
+        self.assertIn('old-format: Still readable', legacy)
+        self.assertIn('No recommendations in this group.', report.audit_html(dict(action_plan={})))
+
+    def test_malformed_action_plan_cannot_silently_drop_recommendations(self):
+        for invalid in ([], {'test_nezt': []}, {'test_next': 'skill'},
+                        {'test_next': [{}]}, {'test_later': [dict(skill='x', reason='why', prerequisite=['bad'])]}):
+            with self.assertRaises(ValueError):
+                report.audit_html(dict(action_plan=invalid))
+
     def test_different_criteria_do_not_produce_paired_uplift(self):
         baseline = run('baseline', expectations=[dict(id='different', verdict='pass', evidence='Checked')])
         result = report.summarize({'runs': [run(), baseline]})

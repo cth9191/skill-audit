@@ -17,6 +17,8 @@ The collector supplying this file must verify actual invocation rather than text
 
 ## Audit report
 
+Keep `title`, `coverage`, and `summary` as strings. Findings carry source evidence; the action plan summarizes the decisions those findings support. A successful HTML render alone is not schema validation.
+
 ```json
 {
   "title": "Skill audit",
@@ -28,12 +30,23 @@ The collector supplying this file must verify actual invocation rather than text
      "evidence": [{"path": "/absolute/path/SKILL.md", "line": 14, "excerpt": "Wait for outline approval."}],
      "preserve": "Brand examples and required factual checks"}
   ],
-  "candidates": [{"skill": "example", "reason": "Frequent workflow with measurable completion criteria"}],
+  "action_plan": {
+    "fix_now": [],
+    "review_retirement": [],
+    "test_next": [{"skill": "example", "reason": "Determine whether outline approval improves the requested drafts", "task": "Draft from a complete supplied brief with and without the procedure", "success_criteria": "Preserve facts and brand requirements; complete the authorized draft"}],
+    "test_later": [],
+    "keep": []
+  },
   "limitations": ["No behavioral comparison has been run"]
 }
 ```
 
+The optional `action_plan` object uses exactly these five group keys; omitted groups render empty. Each group is an array of objects with string `skill` and `reason`. Entries may also have string `task`, `success_criteria`, and `prerequisite`. Include task and success criteria for both testing groups; use prerequisite in Test later to explain when to revisit. Keep decisions grounded in the findings and disclosed usage evidence. Do not fill groups just to make the report look complete.
+
+Older reports may use `candidates`, an array of `{ "skill": "...", "reason": "..." }` entries. The renderer still displays that list when `action_plan` is absent; when an action plan is supplied it replaces that legacy list.
+
 ## Evaluation results
+
 
 One `results.json` holds all arms. Each run has a unique `(case_id, repeat, arm)`. `repeat` starts at 1. Required arms are `original`, `simplified`, `baseline`. Use stable criterion IDs shared across arms. Include every planned run, including skipped runs.
 

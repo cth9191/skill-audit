@@ -4,7 +4,7 @@ Validation date: September 9, 2026.
 
 ## Automated checks
 
-The Python suite contains 21 tests. It covers scanner behavior, filesystem guards, evidence parsing, HTML escaping, benchmark exclusions, matched comparisons, and a CLI workflow from an unrelated directory. The workflow fixture includes hostile instructions and a helper script; neither is executed by the scanner, and file hashes remain unchanged.
+The initial validation suite contained 21 tests, all passing. It covered scanner behavior, filesystem guards, evidence parsing, HTML escaping, benchmark exclusions, matched comparisons, and a CLI workflow from an unrelated directory. The workflow fixture included hostile instructions and a helper script; neither was executed by the scanner, and file hashes remained unchanged.
 
 The installed skill also passes its own inventory scan: valid metadata and no missing prose Markdown references. Both documented report commands produce standalone HTML from the synthetic examples.
 
@@ -43,6 +43,10 @@ Timing includes CLI startup/shutdown and some runs overlapped. Cached tokens are
 Two outputs (current and shorter procedures on the defect task) represented `coverage` as an object instead of the string shown in the audit contract. The renderer accepts these values but displays their string representation. This formatting deviation is recorded separately; it was not retroactively added to the frozen quality rubric.
 
 **Decision:** keep the current skill. These small tasks validate the tested audit behavior and show no objective quality winner. They do not establish general equivalence, demonstrate an advantage for the current procedure, or justify retirement. The scanner and report tools were available to every arm, so this does not test whether the whole package adds value over an agent without those tools. The comparison snapshots remain unchanged; no shorter procedure was installed.
+
+## First-run reporting update
+
+The subsequent onboarding update adds a first-run prompt, an action plan with five decision groups, and separate Test next/Test later recommendations. The current automated suite has 23 passing tests, including action-plan data preservation, escaping, malformed input rejection, and compatibility with older candidate lists. The six live trials above predate this reporting update; they are not presented as behavioral validation of the new grouping instructions.
 
 ## Setup failures retained
 
