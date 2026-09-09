@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+outputs/
+work/
+local-audit/
+*.zip
+*.jsonl
+!examples/**

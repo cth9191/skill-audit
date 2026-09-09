@@ -1,0 +1,17 @@
+{
+  "title": "Synthetic skill audit example",
+  "coverage": "Demonstration only; no real installation or usage logs inspected",
+  "summary": "A missing helper merits repair; overlapping review workflows need contextual inspection.",
+  "findings": [
+    {
+      "skill": "weekly-report",
+      "recommendation": "revise",
+      "strength": "illustrative example",
+      "finding": "The named helper is absent in this fictional package. Locate the intended dependency before changing the workflow.",
+      "evidence": [{"path": "/example/skills/weekly-report/SKILL.md", "line": 12, "excerpt": "Run scripts/build_report.py."}],
+      "preserve": "Required totals and reporting format"
+    }
+  ],
+  "candidates": [{"skill": "plan-review", "reason": "Test whether the review identifies material issues on supplied plans"}],
+  "limitations": ["Synthetic data; no performance claim or retirement recommendation"]
+}

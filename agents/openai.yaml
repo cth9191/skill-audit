@@ -1,0 +1,4 @@
+interface:
+  display_name: "Skill Audit"
+  short_description: "Review skills and test whether they still help"
+  default_prompt: "Use $skill-audit to review my installed skills and identify the strongest candidates for evaluation."

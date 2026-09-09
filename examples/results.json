@@ -1,0 +1,97 @@
+{
+  "title": "Synthetic benchmark example \u2014 not measurements",
+  "coverage": "Demonstration: one fictional case, three arms",
+  "runs": [
+    {
+      "case_id": "synthetic-case",
+      "repeat": 1,
+      "arm": "original",
+      "model": "synthetic-demo",
+      "effort": "not-applicable",
+      "environment_id": "synthetic-env",
+      "inputs_id": "synthetic-inputs",
+      "completion": "complete",
+      "valid": true,
+      "contamination": false,
+      "isolation_evidence": "Synthetic example, not an executed trial",
+      "expectations": [
+        {
+          "id": "preserve-values",
+          "verdict": "pass",
+          "evidence": "Fictional fixture values retained"
+        }
+      ],
+      "time_seconds": 12.0,
+      "total_tokens": null,
+      "metrics_source": "Synthetic demonstration values, not measurements",
+      "output_preview": "Fictional report preview",
+      "artifact_paths": [],
+      "notes": [
+        "Do not interpret as measured results"
+      ]
+    },
+    {
+      "case_id": "synthetic-case",
+      "repeat": 1,
+      "arm": "simplified",
+      "model": "synthetic-demo",
+      "effort": "not-applicable",
+      "environment_id": "synthetic-env",
+      "inputs_id": "synthetic-inputs",
+      "completion": "complete",
+      "valid": true,
+      "contamination": false,
+      "isolation_evidence": "Synthetic example, not an executed trial",
+      "expectations": [
+        {
+          "id": "preserve-values",
+          "verdict": "pass",
+          "evidence": "Fictional fixture values retained"
+        }
+      ],
+      "time_seconds": 10.0,
+      "total_tokens": null,
+      "metrics_source": "Synthetic demonstration values, not measurements",
+      "output_preview": "Fictional report preview",
+      "artifact_paths": [],
+      "notes": [
+        "Do not interpret as measured results"
+      ]
+    },
+    {
+      "case_id": "synthetic-case",
+      "repeat": 1,
+      "arm": "baseline",
+      "model": "synthetic-demo",
+      "effort": "not-applicable",
+      "environment_id": "synthetic-env",
+      "inputs_id": "synthetic-inputs",
+      "completion": "complete",
+      "valid": true,
+      "contamination": false,
+      "isolation_evidence": "Synthetic example, not an executed trial",
+      "expectations": [
+        {
+          "id": "preserve-values",
+          "verdict": "pass",
+          "evidence": "Fictional fixture values retained"
+        }
+      ],
+      "time_seconds": 11.0,
+      "total_tokens": null,
+      "metrics_source": "Synthetic demonstration values, not measurements",
+      "output_preview": "Fictional report preview",
+      "artifact_paths": [],
+      "notes": [
+        "Do not interpret as measured results"
+      ]
+    }
+  ],
+  "comparisons": [],
+  "recommendations": [
+    "Do not infer skill value from this synthetic example"
+  ],
+  "limitations": [
+    "All values are invented to demonstrate report structure"
+  ]
+}
